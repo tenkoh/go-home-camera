@@ -1,0 +1,12 @@
+{
+    "mode": 6,
+    "exposure": 630000,
+    "awbr": 351,
+    "awbb": 558,
+    "analoggain": 575,
+    "digitalgain": 256,
+    "interval": 1000,
+    "verticalflip": true,
+    "horizontalflip": true,
+    "savepath": "./assets/image.jpg"
+}

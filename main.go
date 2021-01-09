@@ -1,20 +1,18 @@
 package main
 
 import (
-	"go-home-camera/localserver"
+	"fmt"
 	"go-home-camera/picamera"
 )
 
+var picam picamera.PiCamera
+var savename string
+
 func main() {
 	// goroutine で camera撮影をする
-	picam := picamera.PiCamera{
-		Mode:           6,
-		VerticalFlip:   true,
-		HorizontalFlip: true,
-		SavePath:       "./assets/image.jpg",
-		Interval:       1000,
-	}
+	savename = "./assets/image.jpg"
+	picamera.ApplyPreset("./settings/daytime_no_light.json", &picam)
+	picam.Capture(savename)
 
-	go picam.SequentialCapture()
-	localserver.MyServer()
+	fmt.Printf("%+v\n", picam)
 }

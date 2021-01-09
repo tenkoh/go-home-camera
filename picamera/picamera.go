@@ -13,16 +13,16 @@ var exposureMargin int = 2
 
 // PiCamera : Configuration for ManualPiCamera
 type PiCamera struct {
-	Mode           int    `json:"mode"`
-	Exposure       int    `json:"exposure"`
-	AWBR           int    `json:"awbr"`
-	AWBB           int    `json:"awbb"`
-	AnalogGain     int    `json:"analoggain"`
-	DigitalGain    int    `json:"digitalgain"`
-	Interval       int    `json:"interval"`
-	VerticalFlip   bool   `json:"verticalflip"`
-	HorizontalFlip bool   `json:"horizontalflip"`
-	SavePath       string `json:"savepath"`
+	Mode           int  `json:"mode"`
+	Brightness     int  `json:"brightness"`
+	Exposure       int  `json:"exposure"`
+	AWBR           int  `json:"awbr"`
+	AWBB           int  `json:"awbb"`
+	AnalogGain     int  `json:"analoggain"`
+	DigitalGain    int  `json:"digitalgain"`
+	Interval       int  `json:"interval"`
+	VerticalFlip   bool `json:"verticalflip"`
+	HorizontalFlip bool `json:"horizontalflip"`
 }
 
 // ApplyPreset : Overwrite PiCamera setting by preset file
@@ -37,7 +37,7 @@ func ApplyPreset(file string, picam *PiCamera) {
 }
 
 // Capture : See https://www.raspberrypi.org/documentation/raspbian/applications/camera.md
-func (picam *PiCamera) Capture() {
+func (picam *PiCamera) Capture(savename string) {
 	var cmd []string
 
 	// Constant: for manual capture
@@ -63,7 +63,8 @@ func (picam *PiCamera) Capture() {
 	cmd = append(cmd,
 		"-ss", strconv.Itoa(picam.Exposure),
 		"-md", strconv.Itoa(picam.Mode),
-		"-o", picam.SavePath,
+		"-o", savename,
+		"-br", strconv.Itoa(picam.Brightness),
 		"-awbg", fmt.Sprintf("%.2f,%.2f", float32(picam.AWBR)/256.0, float32(picam.AWBB)/256.0),
 		"-ag", fmt.Sprintf("%.2f", float32(picam.AnalogGain)/256.0),
 		"-dg", fmt.Sprintf("%.2f", float32(picam.DigitalGain)/256.0),
@@ -72,15 +73,4 @@ func (picam *PiCamera) Capture() {
 
 	exec.Command("raspistill", cmd...).Run()
 	// fmt.Println(cmd)
-}
-
-// SequentialCapture : Capture frames by a constant interval
-func (picam *PiCamera) SequentialCapture() {
-	if picam.Interval <= 0 {
-		log.Fatalln("Interval must be positive")
-	}
-
-	for {
-		picam.Capture()
-	}
 }

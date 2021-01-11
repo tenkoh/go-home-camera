@@ -21,8 +21,17 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "./view/index", &p)
 }
 
+func calibrateHandler(calib chan string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// p := Page{Title: "Calibration"}
+		calib <- r.Method // for test. Any signal could be acceptable for caribration trigger
+		// renderTemplate(w, "./view/calibration", &p)
+		// http.Redirect(w, r, "../", http.StatusFound)
+	}
+}
+
 // MyServer : Provide WEB GUI
-func MyServer() {
+func ResponsiveServer(calib chan string) {
 	// Need to provide static files
 	// "assets"内の静的ファイルを返すハンドラを作る
 	staticHandler := http.FileServer(http.Dir("assets"))
@@ -32,6 +41,7 @@ func MyServer() {
 	// これにより localhost:8080/assets/test.jpg が呼ばれると、サーバ内のファイルからassets/test.jpgが呼ばれる
 	http.Handle("/assets/", splitHandler)
 
+	http.HandleFunc("/calibration/", calibrateHandler(calib))
 	http.HandleFunc("/", viewHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

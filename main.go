@@ -2,17 +2,32 @@ package main
 
 import (
 	"fmt"
+	"go-home-camera/localserver"
 	"go-home-camera/picamera"
 )
 
-var picam picamera.PiCamera
-var savename string
-
 func main() {
-	// goroutine で camera撮影をする
-	savename = "./assets/image.jpg"
-	picamera.ApplyPreset("./settings/daytime_no_light.json", &picam)
-	picam.Capture(savename)
+	var picam picamera.PiCamera
+	picamera.ApplyPreset("./settings/daily.json", &picam) //Initialize
 
-	fmt.Printf("%+v\n", picam)
+	calib := make(chan string)
+
+	savename := "./assets/image.jpg"
+
+	go func() {
+		for {
+			select {
+			case <-calib:
+				fmt.Println("Start Calibration")
+				picamera.Calibrate("night", "./settings/special.json")
+			default:
+				// applypresetをhandlerで書き換えるように変更する
+				fmt.Printf("%+v\n", picam)
+				picamera.ApplyPreset("./settings/special.json", &picam)
+				picam.Capture(savename, true, true)
+			}
+		}
+	}()
+
+	localserver.ResponsiveServer(calib)
 }

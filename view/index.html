@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="/assets/style.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="/assets/main.js?ver=202101112236"></script>
+        <script src="/assets/main.js?ver=202101121323"></script>
         <title>{{.Title}}</title>
     </head>
     <body>
@@ -12,7 +12,12 @@
             <h2>{{.Title}}</h2>
             <img class="main-image" id="home_camera" src="/assets/image.jpg" alt="Waiting for a captured image...">
             <p id="time"></p>
-    
+
+            <select name="exposure">
+                <option value="auto">おまかせ</option>
+                <option value="night">夜間</option>
+            </select>
+
             <input type="button" onclick="doCalibrate();" value="自動調整実行"/>
         </div>
     </body>

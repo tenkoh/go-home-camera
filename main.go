@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	// 結局プリセットをほとんど活用しないのでリファクタリングすること
 	var picam picamera.PiCamera
 	picamera.ApplyPreset("./settings/daily.json", &picam) //Initialize
 
@@ -17,12 +18,10 @@ func main() {
 	go func() {
 		for {
 			select {
-			case <-calib:
-				fmt.Println("Start Calibration")
-				picamera.Calibrate("night", "./settings/special.json")
+			case exmode := <-calib:
+				fmt.Printf("Start Calibration: mode = %s\n", exmode)
+				picamera.Calibrate(exmode, "./settings/special.json")
 			default:
-				// applypresetをhandlerで書き換えるように変更する
-				fmt.Printf("%+v\n", picam)
 				picamera.ApplyPreset("./settings/special.json", &picam)
 				picam.Capture(savename, true, true)
 			}

@@ -1,5 +1,8 @@
 function doCalibrate(){
-    $.get("/calibration/", null).done(function(data){
+    var q = {
+        "exposure": $('[name=exposure] option:selected').val()
+    }
+    $.get("/api/calibration/", q).done(function(data){
         console.log(data);
     })
     confirm('調整中。約5秒後に自動的に設定を更新します。');

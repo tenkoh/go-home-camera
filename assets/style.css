@@ -1,0 +1,15 @@
+body{
+    background-color:rgb(27, 27, 27);
+    color: #ffffff;
+}
+
+.main-wrapper{
+    width: 750px;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main-image{
+    width: 720px;
+}

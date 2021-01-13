@@ -3,13 +3,37 @@ body{
     color: #ffffff;
 }
 
-.main-wrapper{
-    width: 750px;
-    margin-top: 50px;
-    margin-left: auto;
-    margin-right: auto;
+h2{
+    font-size: 32px;
 }
 
-.main-image{
-    width: 720px;
+@media (max-width:750px){
+    .main-wrapper{
+        width: 90%;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .main-content{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .control-box{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .control-element{
+        font-size: 24px;
+        width: 80%;
+        height: 36px;
+        vertical-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 5px;
+    }
 }

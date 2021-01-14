@@ -23,5 +23,5 @@ setInterval(showClock, 1000);
 
 window.onload = function() {
     updateImage();
-    showClock();
+    // showClock();
 }

@@ -131,7 +131,7 @@ func mapToStruct(arr map[string]int) PiCamera {
 	return cam
 }
 
-func saveJson(cam *PiCamera, savename string) error {
+func saveJSON(cam *PiCamera, savename string) error {
 	b, _ := json.MarshalIndent(cam, "", "\t")
 	if ioutil.WriteFile(savename, b, 0755) != nil {
 		log.Fatal("Could not save setting json")
@@ -160,7 +160,7 @@ func Calibrate(ex string, savename string) {
 
 	cam := mapToStruct(params)
 
-	if saveJson(&cam, savename) != nil {
+	if saveJSON(&cam, savename) != nil {
 		log.Fatal("Could not save json file")
 	}
 
